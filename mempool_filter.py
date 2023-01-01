@@ -1,5 +1,5 @@
 # This is the example from the web3py documentation, with the added 'to' filter from crypto market pool's example. 
-# Have added a decoding exmaple for input data as well as updated to set loop and use run(), so as to remove the deprecation warnings.
+# Have additionally inlcuded a decoding example for input data as well as updated to set loop and use run(), so as to remove the deprecation warnings.
 
 # Script that scans mem pool for transactions to a Uniswap v2 router
 from web3 import Web3
