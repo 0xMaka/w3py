@@ -58,8 +58,8 @@ def from_wei(_n: int, _dec: int) -> float:
 def to_wei(_n: int, _dec: int) -> int:
   return int(_n * 10 ** _dec)
 
-def calcSlippage(_slippage: float, _amountOut: int) -> int:
-  return int(_slippage / 100 * _amountOut)
+def calcSlippage(_slippage: float, _amount: int) -> int:
+  return int(_slippage / 100 * _amount)
 
 def dline() -> int:
   return round(time()) + (60 * 5)
@@ -143,7 +143,7 @@ def sell(tx: object):
   print(f'[-] unload: {tx_hash})')
   log(tx_hash)
 
-# __ SAFTEY ___________________________________________________________________
+# __ SAFETY ___________________________________________________________________
 
 def halt():
   should_buy = 0
