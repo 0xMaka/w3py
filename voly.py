@@ -154,7 +154,7 @@ def halt():
   sell(at_loss)
   quit()
 
-def safety(price:int):
+def safety(_price: int):
   if _price < stop_loss:
     halt()
 
