@@ -11,3 +11,4 @@ def con(_node: str) -> object:
       geth_poa_middleware,
       layer=0
     )
+  return w3
