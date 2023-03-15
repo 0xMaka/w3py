@@ -3,12 +3,12 @@
 Enough to work out the rest
 
 ### Keyword: Native
- - Means from the users waller here, rather than the gas token.
+ - Means from the users wallet here, rather than the gas token.
 
 So exactInputSingle(), swaps on a single pool, from a token already in the EOA (externally owned wallet's) Bentobox account.
 exactInputSingleNative() swaps on a single pool, but takes the token from the EOA's wallet. Approvals will be needed.
 
-For these single pool swaps the data we pass is:
+For these single pool swaps the data we pass is the following:
 
 ![](https://i.imgur.com/i2ppYFI.png)
 
@@ -21,13 +21,12 @@ amount  of token A to swap:
 
 ![](https://i.imgur.com/mPncrkl.png)
 
-
 minimum amount of token B after the swap:
 
 ![](https://i.imgur.com/GTAl556.png)
 
 
-Though, what's the data required by the pool for the swap?
+Though what's the data, required by the pool for the swap?
 Let's check ITridentRouter:
 
 ![](https://i.imgur.com/Kd3NUMH.png)
@@ -70,7 +69,7 @@ To make a batch call we use the multicall feature, but let's look first at the s
 
 ![](https://i.imgur.com/zzsffEk.png)
 
-In this example I can use 0, but in order to be safe you should work out a number you are happy  with. 
+In this example I can use 0, but in order to be safe you should work out a number you are happy with. 
 Might be the exact amount out if called from a contract and that can be known, or the amount from getAmountOut minus a percent slippage, so the same as final amountOutMin value. Is up to you.
 
 ![](https://i.imgur.com/vSSSInY.png)
