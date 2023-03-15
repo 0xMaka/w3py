@@ -47,7 +47,7 @@ Let's check a pool contract for a swap function:
 ![](https://i.imgur.com/JlMP5jj.png)
 ![](https://i.imgur.com/bJbXjtl.png)
 
-if True (1) bento's withdraw function (pull token to an external address)
+if True (1) call bento's withdraw function (pull token to an external address)
 else if False (0), call transfer to move tokens within bento, such as to another trident pool, or bento account.
 
 --
