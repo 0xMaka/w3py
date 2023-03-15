@@ -46,22 +46,24 @@ Let's check a pool contract for a swap function:
 ![](https://i.imgur.com/JlMP5jj.png)
 ![](https://i.imgur.com/bJbXjtl.png)
 
-if True (1) call bento's withdraw function (pull token to an external address)
-else if False (0), call transfer to move tokens within bento, such as to another trident pool, or bento account.
+- if True (1) call bento's withdraw function (pull token to an external address)
+- else if False (0), call transfer to move tokens within bento, such as to another trident pool, or bento account.
 
---
+---
+
 So now we know what to pass in the pool data:
 
-The token in, is faily clear.
-The recipient, will either be the next pool in the swap, or the account in bentobox (your address) or might be the Trident address if you need to unwrap the gas token after. unwrapBento, we just went through but as an example if to another pool will be 0:
+- The token in, is faily clear.
+- The recipient, will either be the next pool in the swap, the account in Bentobox (your address), or could be the Trident address if needing to unwrap the gas token after. 
+- unwrapBento, we just went through but as an example, if to another pool oe your account in Bento, will be 0:
 
 ![](https://i.imgur.com/2KdluZb.png)
 
-if to trident to be unwrapped from bento then a 1:
+If to Trident to be unwrapped, from bento, then a 1:
 
 ![](https://i.imgur.com/K80Nvl1.png)
 
-In our latter example we are pulling to Trident so we can  unwrap some wmatic to matic or "ETH" as universily used for the gas coin, so as not to change contracts across deployments.
+In our latter example we are pulling to Trident so we can unwrap some wmatic to matic, or "ETH" as universily used for the gas coin, so as not to change contracts across deployments.
 
 ![](https://i.imgur.com/5UQcBbb.png)
 
