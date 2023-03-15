@@ -55,7 +55,7 @@ So now we know what to pass in the pool data:
 
 - The token in, is faily clear.
 - The recipient, will either be the next pool in the swap, the account in Bentobox (your address), or could be the Trident address if needing to unwrap the gas token after. 
-- unwrapBento, we just went through but as an example, if to another pool oe your account in Bento, will be 0:
+- unwrapBento, we just went through but as an example, if to another pool or your account in Bento, will be 0:
 
 ![](https://i.imgur.com/2KdluZb.png)
 
