@@ -37,6 +37,8 @@ We know we need to pass the pool:
 
 We know the order of parameters, is just which "data" to hex encode?
 
+![image](https://user-images.githubusercontent.com/12489182/225366857-e165164a-481a-42e8-acec-f3e5ccd09b62.png)
+
 Let's check a pool contract for a swap function:
 
 ![](https://i.imgur.com/TUAaHPf.png)
