@@ -35,7 +35,7 @@ We know we need to pass the pool:
 
 ![](https://i.imgur.com/mKpaA1a.png)
 
-We know the order of parameters, so just which "data" to hex encode?
+We know the order of parameters, is just which "data" to hex encode?
 
 Let's check a pool contract for a swap function:
 
@@ -76,7 +76,7 @@ Might be the exact amount out if called from a contract and that can be known, o
 
 ![](https://i.imgur.com/vSSSInY.png)
 
-So we encode our swap, unwrap, and then finally a list or struct of the swap and unwrap calls, with a multicall.
+So we encode our swap, unwrap, and then finally a list or array of the swap and unwrap calls, with a multicall.
 
 ![](https://i.imgur.com/WvhF57E.png)
 ![](https://i.imgur.com/x53Eog6.png)
