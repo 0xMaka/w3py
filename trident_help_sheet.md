@@ -46,14 +46,14 @@ Let's check a pool contract for a swap function:
 ![](https://i.imgur.com/JlMP5jj.png)
 ![](https://i.imgur.com/bJbXjtl.png)
 
-- if True (1) call bento's withdraw function (pull token to an external address)
-- else if False (0), call transfer to move tokens within bento, such as to another trident pool, or bento account.
+- if True (1) call Bento's withdraw function (pull token to an external address)
+- else if False (0), call transfer to move tokens within Bento, such as to another Trident pool, or Bento account.
 
 ---
 
 So now we know what to pass in the pool data:
 
-- The token in, is faily clear.
+- The token in, is fairly clear.
 - The recipient, will either be the next pool in the swap, the account in Bentobox (your address), or could be the Trident address if needing to unwrap the gas token after. 
 - unwrapBento, we just went through but as an example, if to another pool or your account in Bento, will be 0:
 
