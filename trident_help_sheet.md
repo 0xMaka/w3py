@@ -54,11 +54,11 @@ else if False (0), call transfer to move tokens within bento, such as to another
 So now we know what to pass in the pool data:
 
 The token in, is faily clear.
-The recipient, will either be the next pool in the swap, or the account in bentobox (your address) or might be the Trident address if you need to unwrap the gas token after
-unwrapBento, we just went through but as an example if to another pool will be 0:
+The recipient, will either be the next pool in the swap, or the account in bentobox (your address) or might be the Trident address if you need to unwrap the gas token after. unwrapBento, we just went through but as an example if to another pool will be 0:
 
 ![](https://i.imgur.com/2KdluZb.png)
-if to trident to be unwrapped from bento then a 1.
+
+if to trident to be unwrapped from bento then a 1:
 
 ![](https://i.imgur.com/K80Nvl1.png)
 
