@@ -5,7 +5,7 @@ Enough to work out the rest
 ### Keyword: Native
  - Means from the users wallet here, rather than the gas token.
 
-So exactInputSingle(), swaps on a single pool, from a token already in the EOA (externally owned wallet's) Bentobox account.
+So exactInputSingle(), swaps on a single pool, from a token already in the EOA's (**Externally Owned** wallet's), Bentobox **Account**.
 exactInputSingleNative() swaps on a single pool, but takes the token from the EOA's wallet. Approvals will be needed.
 
 For these single pool swaps the data we pass is the following:
