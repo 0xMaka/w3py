@@ -72,8 +72,8 @@ def getAmountOut(amountIn: int, reserveIn: int, reserveOut: int) -> int:
   return int(amountOut)
 
 def getAmountIn(amountOut: int, reserveIn: int, reserveOut: int) -> int:
-  numerator = reserveIn * (amountOut * 1000)
-  denominator = reserveOut - (amountOut * 997)
+  numerator = (reserveIn * amountOut) * 1000
+  denominator = (reserveOut - amountOut) * 997
   amountIn = (numerator / denominator) + 1
   return int(amountIn)  
 
