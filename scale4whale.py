@@ -1,7 +1,7 @@
 # return minimum amount in for a given amount out
 def getAmountIn(amountOut: int, reserveIn: int, reserveOut: int) -> int:
   if not amountOut > 0 or not reserveIn * reserveOut > 0:
-      print('[!] getAmountIn() err: Insufficient quantity')
+    print('[!] getAmountIn() err: Insufficient quantity')
     return 0
   else:
     numerator = (reserveIn * amountOut) * 1000
