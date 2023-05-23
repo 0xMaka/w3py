@@ -1,7 +1,7 @@
 # return minimum amount in for a given amount out
 def getAmountIn(amountOut: int, reserveIn: int, reserveOut: int) -> int:
   if not amountOut > 0 or not reserveIn * reserveOut > 0:
-      print('[!] getAmountOut() err: Insufficient quantity')
+      print('[!] getAmountIn() err: Insufficient quantity')
     return 0
   else:
     numerator = (reserveIn * amountOut) * 1000
@@ -30,7 +30,7 @@ def quote(
 ) -> int:
   amount = get_percent(percent, supply)
   if amount > token_reserve:
-    print('[!] quote err: AmountOut exceeds pool reserve, try an aggregator')
+    print('[!] quote() err: AmountOut exceeds pool reserve, try an aggregator')
     return 0
   else:
     return getAmountIn(amount, eth_reserve, token_reserve)
