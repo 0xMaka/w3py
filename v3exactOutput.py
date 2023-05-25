@@ -76,7 +76,7 @@ def main():
   print ('[-] Approving... ')
   tx_hash = send_tx(sign_tx(approve, KEY))
   receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-  print (f'[+] approved: {tx_hash}\n[>] {receipt}')
+  print (f'[+] Approved: {tx_hash}\n[>] {receipt}')
 
   tx.update({'nonce': w3.eth.get_transaction_count(EOA)})
   swap = router.functions.exactOutputSingle(params).build_transaction(tx)
