@@ -33,7 +33,7 @@ STG_MATIC_FEE = 10000
 MATIC_USDC_FEE = 500
 
 from eth_abi.packed import encode_packed
-# The fee changes the which pool for the address-pair will be traded on, if having issues check the pool(s) being routed through make sure they have the liquidty you think
+# The fee changes which pool for the address-pair will be traded on, if having issues check the pool(s) being routed through make sure they have the liquidty you think
 # TokenOut,Fee,TokenIn/TokenOut,Fee,TokenIn
 path = encode_packed(['address', 'uint24', 'address', 'uint24', 'address'], [STG_ADDRESS, STG_MATIC_FEE, WMATIC_ADDRESS, MATIC_USDC_FEE, USDC_ADDRESS])
 PROCESSED_PATH = f'0x{path.hex()}'
