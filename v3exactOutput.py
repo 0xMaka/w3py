@@ -39,7 +39,6 @@ path = encode_packed(['address', 'uint24', 'address', 'uint24', 'address'], [STG
 PROCESSED_PATH = f'0x{path.hex()}'
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 amount_in = quoter.functions.quoteExactOutput(PROCESSED_PATH, AMOUNT_OUT).call()
-#amount_in = quoter.functions.quoteExactOutputSingle(WMATIC_ADDRESS, STG_ADDRESS, FEE, ONE_ETH, SQRT_PRICE_LIMIT).call()
 multiplier = 0.01 # 1% slippage
 AMOUNT_IN_WITH_SLIPPAGE = amount_in + round(multiplier * amount_in)
 DEADLINE = 2000000000
@@ -52,11 +51,6 @@ KEY = getenv('TKEY')
 EOA = getenv('TRON')
 #----------------------
 
-#params = (PROCESSED_PATH, EOA, DEADLINE, AMOUNT_OUT, AMOUNT_IN_WITH_SLIPPAGE)
-#params = encode_packed(['address','address','uint24','address','uint256','uint256','uint256','uint160'],[USDC_ADDRESS, WMATIC_ADDRESS, FEE, EOA, DEADLINE, AMOUNT_OUT, AMOUNT_IN_WITH_SLIPPAGE, SQRT_PRICE_LIMIT])
-#calldata = router.encodeABI(fn_name='exactOutputSingle', args=[params])
-
-#params = (USDC_ADDRESS, WMATIC_ADDRESS, FEE, EOA, DEADLINE, AMOUNT_OUT, AMOUNT_IN_WITH_SLIPPAGE, SQRT_PRICE_LIMIT)
 params = (PROCESSED_PATH, EOA, DEADLINE, AMOUNT_OUT, AMOUNT_IN_WITH_SLIPPAGE)
 
 tx = {
