@@ -19,8 +19,6 @@ APPROVAL_SIGNATURE_HASH = keccak256(['string'],["SetMasterContractApproval(strin
 DOMAIN_SEPARATOR = w3.keccak(encode(['bytes32', 'bytes32', 'uint256', 'address'],[DOMAIN_SEPARATOR_SIGNATURE_HASH, keccak256(['string'],["BentoBox V1"]), CHAIN_ID, BENTO_ADDRESS]))
 #HexBytes('0x22322c7b6d97d347ab3486955b7193a8ce18ace1c079cbc24caa60b203705406')
 
-# print(f'[+] DOMAIN_SEPARATOR: {DOMAIN_SEPARATOR.hex()}')
-
 # account
 from os import getenv
 from dotenv import load_dotenv
@@ -63,10 +61,8 @@ print(f'[>] v: {signed.v}')
 print(f'[>] r: {hex(signed.s)}')
 print(f'[>] s: {hex(signed.s)}')
 
+# --
 
-
-
-# --------- LIVE TRANSACTING BELOW THIS LINE - Only uncomment for on chain approval --------- #
 tx = {
         'from': EOA,
         'value':0,
