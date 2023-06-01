@@ -58,7 +58,7 @@ signer = w3.eth.account.from_key(KEY)
 signed = signer.signHash(digest.hex())
 
 print(f'[>] v: {signed.v}')
-print(f'[>] r: {hex(signed.s)}')
+print(f'[>] r: {hex(signed.r)}')
 print(f'[>] s: {hex(signed.s)}')
 
 # --
