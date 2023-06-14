@@ -39,8 +39,7 @@ RELAY ='0x19FDA656Ffb0C51420832A42ed319a0fEDD6477f' # relay contract address
 # helper - fetches abi from file located in 'abi/'
 def from_json(file: str) -> str:
   with open(file) as f:
-    abi = f.read().strip()
-    return abi
+    return f.read().strip()
 
 SLP_ABI = from_json('abi/slp_abi.json')
 ERC20_ABI = from_json('abi/erc20_abi.json')
