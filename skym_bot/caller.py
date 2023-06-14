@@ -40,7 +40,6 @@ RELAY ='0x19FDA656Ffb0C51420832A42ed319a0fEDD6477f' # relay contract address
 def from_json(file: str) -> str:
   with open(file) as f:
     abi = f.read().strip()
-    f.close()
     return abi
 
 SLP_ABI = from_json('abi/slp_abi.json')
