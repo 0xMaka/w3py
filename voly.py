@@ -47,8 +47,8 @@ def get_reserves(_pair: object) -> (int, int, int):
   return _pair.functions.getReserves().call()
 
 async def poll_reserves(_pair: object) -> list:
-  res0, res1, stamp = get_reserves(_pair)
   await asyncio.sleep(POLL_DELAY)
+  res0, res1, stamp = get_reserves(_pair)
   return [res0, res1, stamp]
 
 # __ Filler functions _________________________________________________________
