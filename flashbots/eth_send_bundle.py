@@ -50,8 +50,9 @@ def sign_flash(_tx_body: str) -> str:
   return signature
 
 from requests import post
-def send_flash(_request: dict) -> str:
-  request = str(_request).replace("'",'"')
+from json import dumps
+def send_flash(_request: dict) -> bytes:
+  request = dumps(_request)
   headers = { 'Content-Type': 'application/json', 'X-Flashbots-Signature': sign_flash(request) }
   return post('https://relay-goerli.flashbots.net', data=request, headers=headers).content
 
