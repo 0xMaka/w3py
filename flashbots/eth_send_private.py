@@ -36,7 +36,7 @@ eth_sendPrivateTransaction = {
     'tx': [str],
     'maxBlockNumber': str,     
     'preferences': {       
-    'fast': 'false',       
+    'fast': bool,       
     'privacy': {            
       'hints': [             
         'contract_address',             
