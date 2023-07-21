@@ -184,7 +184,7 @@ for block_num in range(TARGET_BLOCK, TARGET_BLOCK + 5):
   bundle.update({"id": _id}), 
   bundle['params'][0]['inclusion'] = {'block': hex(_target), 'maxBlock': hex(_target + 5)}
   response = send_flash(bundle)
-  if b'result' in response:
+  if b'success' in response:
     print(response)
     break
   _id += 1
