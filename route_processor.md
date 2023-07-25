@@ -191,7 +191,7 @@ wmatic = w3.eth.contract(address=WMATIC_ADDRESS, abi=ERC20_ABI)
 # if (commandCode == 2) processUserERC20(stream, amountIn);
 source = 0x02
 
-#  function processUserERC20(uint256 stream, uint256 amountTotal) private {
+# function processUserERC20(uint256 stream, uint256 amountTotal) private {
 #   address token = stream.readAddress();
 token_in = WMATIC_ADDRESS
 
@@ -203,7 +203,6 @@ share = 0xffff # full amount
 # function swap(uint256 stream, address from, address tokenIn, uint256 amountIn) private {
 #   uint8 poolType = stream.readUint8();
 #   if (poolType == 0) swapUniV2(stream, from, tokenIn, amountIn);
-
 pool_type = 0x00
 
  # function swapUniV2(uint256 stream, address from, address tokenIn, uint256 amountIn) private {
