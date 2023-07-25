@@ -1,5 +1,5 @@
 # imports and initialisations (can ignore)
-from net import con; w3 = con('POLYGON')
+from net import con; w3 = con('POLYGON') # i.e from web3 import Web3; w3 = Web3(Provider(Endpoint))
 # account
 from os import getenv
 from dotenv import load_dotenv
@@ -27,24 +27,22 @@ wmatic = w3.eth.contract(address=WMATIC_ADDRESS, abi=ERC20_ABI)
 
 
 # what do I want to do.. use pre wrapped matic from wallet and swap for usdc.. 
-# lets work through the contract like shown in the walk through example @ https://github.com/0xMaka/w3py/blob/main/route_processor.md
 
 # if (commandCode == 2) processUserERC20(stream, amountIn);
 source = 0x02
 
-#  function processUserERC20(uint256 stream, uint256 amountTotal) private {
+# function processUserERC20(uint256 stream, uint256 amountTotal) private {
 #   address token = stream.readAddress();
 token_in = WMATIC_ADDRESS
 
 # uint8 num = stream.readUint8();
 # ..uint16 share = stream.readUint16();
-num = 0x01
-share = 0xffff
+num = 0x01 # 1 route
+share = 0xffff # full amount
 
 # function swap(uint256 stream, address from, address tokenIn, uint256 amountIn) private {
 #   uint8 poolType = stream.readUint8();
 #   if (poolType == 0) swapUniV2(stream, from, tokenIn, amountIn);
-
 pool_type = 0x00
 
  # function swapUniV2(uint256 stream, address from, address tokenIn, uint256 amountIn) private {
@@ -52,7 +50,7 @@ pool_type = 0x00
  #   uint8 direction = stream.readUint8();
  #   address to = stream.readAddress();
 pair = WMATIC_USDC_ADDRESS
-direction = 0x01
+direction = 0x01 # token 1 to 0 or 0 to 1 (check pool or call it and sort them)
 to = EOA
 
 from eth_abi.packed import encode_packed
@@ -75,7 +73,6 @@ tx = {
         'nonce': w3.eth.get_transaction_count(EOA)
 }
 
-# helpers
 def sign_tx(tx, key):
   sig = w3.eth.account.sign_transaction
   signed_tx = sig(tx, private_key=key)
@@ -87,7 +84,7 @@ def send_tx(signed_tx):
   return tx_hash
 
 def main():
-  approve = wmatic.functions.approve(ROUTER_ADDRESS,500000000000000000).build_transaction(tx)
+  approve = wmatic.functions.approve(ROUTER_ADDRESS, 500000000000000000).build_transaction(tx)
   print ('[-] Approving... ')
   tx_hash = send_tx(sign_tx(approve, KEY))
   receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
@@ -96,9 +93,9 @@ def main():
   tx.update({'nonce': w3.eth.get_transaction_count(EOA)})
   swap = router.functions.processRoute(
     WMATIC_ADDRESS,
-    500000000000000000, # AMOUNT_IN,
+    500000000000000000,
     USDC_ADDRESS,
-    0, # AMOUNT_OUT_WITH_SLIPPAGE,
+    0,
     EOA,
     PROCESSED_ROUTE
   ).build_transaction(tx)
@@ -111,4 +108,3 @@ def main():
 
 if __name__ == '__main__':
   main()
- # pass
