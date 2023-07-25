@@ -87,7 +87,7 @@ def send_tx(signed_tx):
   return tx_hash
 
 def main():
-  approve = wmatic.functions.approve(ROUTER_ADDRESS, AMOUNT_IN).build_transaction(tx)
+  approve = wmatic.functions.approve(ROUTER_ADDRESS,500000000000000000).build_transaction(tx)
   print ('[-] Approving... ')
   tx_hash = send_tx(sign_tx(approve, KEY))
   receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
