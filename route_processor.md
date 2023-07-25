@@ -1,8 +1,10 @@
 # Route Processor: route breakdown (with working example)
 ---
+To build a route you'll want to know what you want to do, then look for those stages in the contract.
+There are command bytes and pool bytes which are uint8, there is a share paramater which is uint16 and there are pool and token addresses.
+You will need to either abi packed encode, or concatenate their unpadded hex values.
 
 Let's break down the route from this transaction:
-
 - https://polygonscan.com/tx/0xff42abb0a2ffa6e36f72f2eb9cbdf3529ea9a4834415a754b6f857ecc6aa157c
 
 Route code:
@@ -157,6 +159,12 @@ Broken up:
 
 A working example:
 
+- This script swaps .5 matic to usdc on Polygon mainnet.
+
+| WARNING          |
+|:---------------------------|
+| Please note that 0 is used for amountOutMin here, but you should always use the amount out you want minus a percent slippage you are willing to take, if front running is a concern.|
+
 ```python
 # imports and initialisations (can ignore)
 from net import con; w3 = con('POLYGON') # i.e from web3 import Web3; w3 = Web3(Provider(Endpoint))
@@ -233,7 +241,6 @@ tx = {
         'nonce': w3.eth.get_transaction_count(EOA)
 }
 
-# helpers
 def sign_tx(tx, key):
   sig = w3.eth.account.sign_transaction
   signed_tx = sig(tx, private_key=key)
@@ -269,6 +276,4 @@ def main():
 
 if __name__ == '__main__':
   main()
- # pass
-
 ```
