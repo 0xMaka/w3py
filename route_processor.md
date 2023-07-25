@@ -1,8 +1,14 @@
 # Route Processor: route breakdown (with working example)
 ---
 To build a route you'll want to know what you want to do, then look for those stages in the contract.
-There are command bytes and pool bytes which are uint8, there is a share paramater which is uint16 and there are pool and token addresses.
+There are command bytes and pool bytes which are uint8, there is a share parameter which is uint16 and there are pool and token addresses.
 You will need to either abi packed encode, or concatenate their unpadded hex values.
+
+ex.
+```python
+from eth_abi.packed import encode_packed
+route = encode_packed(['uint8', 'address', 'uint8', 'uint16', 'uint8', 'address', 'uint8', 'address'], [source, token_in, num, share, pool_type, pair, direction, to])
+```
 
 Let's break down the route from this transaction:
 - https://polygonscan.com/tx/0xff42abb0a2ffa6e36f72f2eb9cbdf3529ea9a4834415a754b6f857ecc6aa157c
@@ -106,9 +112,10 @@ Broken up:
   }
  ``` 
 
-
 ### command 04
 (commandCode == 4) processOnePool(stream);
+- token (matic):
+- - 0d500b1d8e8ef31e21c99d1db9a6444d3adf1270  
 ```solidity
   /// @notice Processes ERC20 token for cases when the token has only one output pool
   /// @notice In this case liquidity is already at pool balance. This is an optimization
