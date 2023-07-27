@@ -173,7 +173,7 @@ A working example:
 | Please note that 0 is used for amountOutMin here, but you should always use the amount out you want minus a percent slippage you are willing to take, if front running is a concern.|
 
 ```python
-# imports and initialisations (can ignore)
+# imports and initialisations (can ignore/replace with your own set up)
 from net import con; w3 = con('POLYGON') # i.e from web3 import Web3; w3 = Web3(Provider(Endpoint))
 # account
 from os import getenv
@@ -197,8 +197,8 @@ ERC20_ABI = ''' [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"
 router = w3.eth.contract(address=ROUTER_ADDRESS, abi=ROUTER_ABI)
 wmatic = w3.eth.contract(address=WMATIC_ADDRESS, abi=ERC20_ABI)
 
-# ----
 
+# ----
 
 
 # what do I want to do.. use pre wrapped matic from wallet and swap for usdc.. 
@@ -234,6 +234,7 @@ route = encode_packed(['uint8', 'address', 'uint8', 'uint16', 'uint8', 'address'
 PROCESSED_ROUTE = f'0x{route.hex()}'
 print(PROCESSED_ROUTE)
 
+
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -263,7 +264,7 @@ def main():
   print ('[-] Approving... ')
   tx_hash = send_tx(sign_tx(approve, KEY))
   receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-  print (f'[+] approved: {tx_hash}\n[>] {receipt}')
+  print (f'[+] Approved: {tx_hash}\n[>] {receipt}')
 
   tx.update({'nonce': w3.eth.get_transaction_count(EOA)})
   swap = router.functions.processRoute(
