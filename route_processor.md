@@ -173,7 +173,7 @@ A working example:
 | Please note that 0 is used for amountOutMin here, but you should always use the amount out you want minus a percent slippage you are willing to take, if front running is a concern.|
 
 ```python
-# imports and initialisations (can ignore/replace with your own set up)
+# imports and initialisations (replace with your own set up)
 from net import con; w3 = con('POLYGON') # i.e from web3 import Web3; w3 = Web3(Provider(Endpoint))
 # account
 from os import getenv
