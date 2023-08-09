@@ -10,7 +10,18 @@ from eth_abi.packed import encode_packed
 route = encode_packed(['uint8', 'address', 'uint8', 'uint16', 'uint8', 'address', 'uint8', 'address'], [source, token_in, num, share, pool_type, pair, direction, to])
 ```
 
-Let's break down the route from this transaction:
+The path is a stream of unpadded bytes, at least the first of which will be command bytes.
+![image](https://github.com/0xMaka/w3py/assets/12489182/6fb5f868-fdc9-4771-96b4-9194c389cc77)
+
+- 1: If the token is at router, say for a multi hop or after unwrapping.
+- 2: If from external account/contract
+- 3: If with native coin
+ 
+etc 
+
+Once it calls that command the next bytes are dependant on what you called (follow the function in the contract to see what is being decoded from the stream) 
+
+Let's break down the route from this transaction as an example:
 - https://polygonscan.com/tx/0xff42abb0a2ffa6e36f72f2eb9cbdf3529ea9a4834415a754b6f857ecc6aa157c
 
 Route code:
@@ -18,14 +29,30 @@ Route code:
 0x0301ffff0201cd353f79d9fade311fc3119b841e1f456b54e8580d500b1d8e8ef31e21c99d1db9a6444d3adf1270040d500b1d8e8ef31e21c99d1db9a6444d3adf127000cd353f79d9fade311fc3119b841e1f456b54e85801685e1e383e758b49b3f3413b5c5281c225b2ce1a
 ```
 Broken up:
->03 01 ffff 02 01 
->cd353f79d9fade311fc3119b841e1f456b54e858 
->0d500b1d8e8ef31e21c99d1db9a6444d3adf1270 
->04 
->0d500b1d8e8ef31e21c99d1db9a6444d3adf1270 
->00 
->cd353f79d9fade311fc3119b841e1f456b54e858 
->01 
+>03
+
+>01
+
+>ffff
+
+>02
+
+>01
+
+>cd353f79d9fade311fc3119b841e1f456b54e858
+
+>0d500b1d8e8ef31e21c99d1db9a6444d3adf1270
+
+>04
+
+>0d500b1d8e8ef31e21c99d1db9a6444d3adf1270
+
+>00
+
+>cd353f79d9fade311fc3119b841e1f456b54e858
+
+>01
+
 >685e1e383e758b49b3f3413b5c5281c225b2ce1a
 
 ### command 03
@@ -38,9 +65,9 @@ Broken up:
     distributeAndSwap(stream, address(this), NATIVE_ADDRESS, amountTotal);
   }
 ```
-- num of routes: 
+- num of pools to pull from: 
 - - 01
-- share from route: 
+- shares to swap on pool: 
 - - ffff
 ```solidity
   /// @notice Distributes amountTotal to several pools according to their shares and calls swap for each pool
@@ -163,10 +190,11 @@ Broken up:
     IUniswapV2Pair(pool).swap(amount0Out, amount1Out, to, new bytes(0));
 ```
 
+---
 
-A working example:
+## A working example:
 
-- This script swaps .5 matic to usdc on Polygon mainnet.
+This Following script swaps .5 matic to usdc on Polygon mainnet.
 
 | WARNING          |
 |:---------------------------|
@@ -200,34 +228,51 @@ wmatic = w3.eth.contract(address=WMATIC_ADDRESS, abi=ERC20_ABI)
 
 # ----
 
+# A minimum viable path is:
+# - source (command byte): most likely your wallet or the router.
+# - token_in: token to swap from 
+# - num: number of pool routes to calls swap on
+# - share: amount of totalAmount per swap
+# - pool_type: v2 or v3, or to weth etc, check the list above or the function in the contract
+# - pair: pool to swap on
+# - direction token0 to token1 or vice versa 
+# - to: destination ie router if another hop, or unwrap, and your address if done
 
-# what do I want to do.. use pre wrapped matic from wallet and swap for usdc.. 
+# We want to use pre wrapped matic from wallet and swap for usdc, so let's look for those stages:
 
+# The token is coming from our wallet so we select 2 'processUserERC20'
 # if (commandCode == 2) processUserERC20(stream, amountIn);
 source = 0x02
 
+# Following this through the contract, we can see it pulls an address from the stream
+# and as this our token, in lets assign it the wmatic address
 # function processUserERC20(uint256 stream, uint256 amountTotal) private {
 #   address token = stream.readAddress();
 token_in = WMATIC_ADDRESS
 
+# It then wants the number of 'routes' to call swap on, and how the total amount swapped will be split across them
+# For simplicity (and as I have not played around with this much) we will set pool 1 pool, full amount from pool
 # uint8 num = stream.readUint8();
 # ..uint16 share = stream.readUint16();
-num = 0x01 # 1 route
-share = 0xffff # full amount
+num = 0x01 # 1 pool route
+share = 0xffff # full amount from poolk route
 
-# function swap(uint256 stream, address from, address tokenIn, uint256 amountIn) private {
-#   uint8 poolType = stream.readUint8();
+# Now we prepare the pool bytes, followed by values the called command will consume from the stream
+# v2 has the liquidty for this swap so we put 0
 #   if (poolType == 0) swapUniV2(stream, from, tokenIn, amountIn);
 pool_type = 0x00
 
- # function swapUniV2(uint256 stream, address from, address tokenIn, uint256 amountIn) private {
- #   address pool = stream.readAddress();
- #   uint8 direction = stream.readUint8();
- #   address to = stream.readAddress();
+# This function takes the address of pool, 0 or 1 for direction, and an address for destination
+# We know the pool, direction we can get from pool, and as this is a single hop the destination will be the externally owned accounts address
+# function swapUniV2(uint256 stream, address from, address tokenIn, uint256 amountIn) private {
+#   address pool = stream.readAddress();
+#   uint8 direction = stream.readUint8();
+#   address to = stream.readAddress();
 pair = WMATIC_USDC_ADDRESS
 direction = 0x01 # token 1 to 0 or 0 to 1 (check pool or call it and sort them)
 to = EOA
 
+# Encode them
 from eth_abi.packed import encode_packed
 route = encode_packed(['uint8', 'address', 'uint8', 'uint16', 'uint8', 'address', 'uint8', 'address'], [source, token_in, num, share, pool_type, pair, direction, to])
 
