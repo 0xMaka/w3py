@@ -29,31 +29,22 @@ Route code:
 0x0301ffff0201cd353f79d9fade311fc3119b841e1f456b54e8580d500b1d8e8ef31e21c99d1db9a6444d3adf1270040d500b1d8e8ef31e21c99d1db9a6444d3adf127000cd353f79d9fade311fc3119b841e1f456b54e85801685e1e383e758b49b3f3413b5c5281c225b2ce1a
 ```
 Broken up:
->03
-
->01
-
->ffff
-
->02
-
->01
-
->cd353f79d9fade311fc3119b841e1f456b54e858
-
->0d500b1d8e8ef31e21c99d1db9a6444d3adf1270
-
->04
-
->0d500b1d8e8ef31e21c99d1db9a6444d3adf1270
-
->00
-
->cd353f79d9fade311fc3119b841e1f456b54e858
-
->01
-
+>03 -> 
+>01 -> 
+>ffff -> 
+>02 -> 
+>01 -> 
+>cd353f79d9fade311fc3119b841e1f456b54e858 -> 
+>0d500b1d8e8ef31e21c99d1db9a6444d3adf1270 ->
+>04 -> 
+>0d500b1d8e8ef31e21c99d1db9a6444d3adf1270 -> 
+>00 -> 
+>cd353f79d9fade311fc3119b841e1f456b54e858 -> 
+>01 -> 
 >685e1e383e758b49b3f3413b5c5281c225b2ce1a
+---
+
+Here are each of those actions and values consumed from stream along with them.
 
 ### command 03
 (commandCode == 3) processNative(stream);
@@ -251,7 +242,7 @@ source = 0x02
 token_in = WMATIC_ADDRESS
 
 # It then wants the number of 'routes' to call swap on, and how the total amount swapped will be split across them
-# For simplicity (and as I have not played around with this much) we will set pool 1 pool, full amount from pool
+# For simplicity (and as I have not played around with this much) we will set 1 pool route, full amount from pool
 # uint8 num = stream.readUint8();
 # ..uint16 share = stream.readUint16();
 num = 0x01 # 1 pool route
