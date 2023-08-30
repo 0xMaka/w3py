@@ -42,7 +42,7 @@ wmatic = w3.eth.contract(address=WMATIC_ADDRESS, abi=ERC20_ABI)
 source = 0x02
 
 # Following this through the contract, we can see it pulls an address from the stream
-# and as this our token, in lets assign it the wmatic address
+# and as this our token in, lets assign it the wmatic address
 # function processUserERC20(uint256 stream, uint256 amountTotal) private {
 #   address token = stream.readAddress();
 token_in = WMATIC_ADDRESS
