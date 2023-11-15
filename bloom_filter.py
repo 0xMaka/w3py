@@ -1,10 +1,10 @@
 # py port of an example I found here: https://ethereum.stackexchange.com/questions/142703/how-can-i-parse-an-ethereum-block-level-logsbloom
 from net import con; w3 = con('MAINNET')
 from hexbytes import HexBytes
-keccak256 = w3.solidity_keccak # a keccak function, can be the result of raw call to web3_sha3
+keccak256 = w3.solidity_keccak
 
 def get_num(hex_str: str, index: int, bytes_count: int = 1) -> int:
-  hex_str = HexBytes(hex_str).hex()[2:]    # just handle all the cases
+  hex_str = HexBytes(hex_str).hex()[2:]
   ost = index * 2
   return int(hex_str[ost:ost + 2 * bytes_count], 16)
 
