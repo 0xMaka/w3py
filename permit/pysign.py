@@ -100,4 +100,4 @@ print(f'[>] signed_for_contract.signature: {signed_for_contract.signature.hex()}
 
 result_from_contract = vsc.verify(signed_for_contract.messageHash, signed_for_contract.signature).call()
 print(f'[+] result_from_contract: {result_from_contract}')
-print(f'[+] Matches address\n') if result.lower() == keys_address.lower() else print('[!] Mismatch\n')
+print(f'[+] Matches address\n') if result_from_contract.lower() == keys_address.lower() else print('[!] Mismatch\n')
