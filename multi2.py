@@ -1,5 +1,5 @@
-# https://goerli.etherscan.io/address/0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e#code
-# ex multicall
+# https://goerli.etherscan.io/address/0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e
+# ex. multicall
 
 from net import con; w3 = con('GOERLI') # use your set up
 from os import getenv; from dotenv import load_dotenv; load_dotenv(); EOA = getenv('TRON')
@@ -27,3 +27,4 @@ datas = [(targets[0],data), (targets[1],data)]
 calls = multi.functions.aggregate(datas).build_transaction({})
 
 print(decode(['uint256','bytes[]'], w3.eth.call(calls)))
+# 1 love
