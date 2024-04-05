@@ -51,29 +51,29 @@ commands = '0x0b00'
 
 # https://github.com/Uniswap/universal-router/blob/main/contracts/base/Dispatcher.sol
 #
-#                    if (command == Commands.V3_SWAP_EXACT_IN) {
-#                        // equivalent: abi.decode(inputs, (address, uint256, uint256, bytes, bool))
-#                        address recipient;
-#                        uint256 amountIn;
-#                        uint256 amountOutMin;
-#                        bool payerIsUser
+#  if (command == Commands.V3_SWAP_EXACT_IN) {
+#      // equivalent: abi.decode(inputs, (address, uint256, uint256, bytes, bool))
+#      address recipient;
+#      uint256 amountIn;
+#      uint256 amountOutMin;
+#      bool payerIsUser
 #....
 #
-#https://github.com/Uniswap/universal-router/blob/228f2d151a5fc99836d72ae00f81db92cdb44bd3/contracts/modules/uniswap/v2/V2SwapRouter.sol#L47
-
-#    /// @notice Performs a Uniswap v2 exact input swap
+# https://github.com/Uniswap/universal-router/blob/228f2d151a5fc99836d72ae00f81db92cdb44bd3/contracts/modules/uniswap/v3/V3SwapRouter.sol
+#
+#    /// @notice Performs a Uniswap v3 exact input swap
 #    /// @param recipient The recipient of the output tokens
 #    /// @param amountIn The amount of input tokens for the trade
 #    /// @param amountOutMinimum The minimum desired amount of output tokens
-#    /// @param path The path of the trade as an array of token addresses
+#    /// @param path The path of the trade as a bytes string
 #    /// @param payer The address that will be paying the input
-#    function v2SwapExactInput(
+#    function v3SwapExactInput(
 #        address recipient,
 #        uint256 amountIn,
 #        uint256 amountOutMinimum,
-#        address[] calldata path,
+#        bytes calldata path,
 #        address payer
-#
+
 from eth_abi import encode
 from eth_abi.packed import encode_packed
 # some sane inputs (sane doesn't mean safe in this case, always use a good slippage value unless protected some other way)
