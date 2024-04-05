@@ -1,12 +1,12 @@
-# uni's universal router is similar to sushi's route processor, if not a little simpler so can be worth looking at my walk through of one of those transactions
-# as it covers all the same considerations and steps in trying to understand the universal router.
+# uni's universal router is similar to sushi's route processor, if not a little simpler so can be worth looking at the walk through of those transactions
+# as it covers the same considerations and steps in trying to understand the universal router.
 
 from net import con; w3 = con('POLYGON') # i.e from web3 import Web3; w3 = Web3(Provider(Endpoint))
 from os import getenv
 from dotenv import load_dotenv
 load_dotenv()
-KEY = getenv('TKEY')
-EOA = getenv('TRON')
+KEY = getenv('your_key')
+EOA = getenv('your_address')
 #----------------------
 
 #---
@@ -45,7 +45,7 @@ router = w3.eth.contract(address=ROUTER_ADDRESS, abi=ROUTER_ABI)
 #
 # ----
 
-# we will wrap the native token, swap othen swap on v3
+# we will wrap the native coin, then swap on v3
 
 commands = '0x0b00'
 
