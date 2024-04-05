@@ -1,6 +1,6 @@
 # short script to highlight the diffences between the v1/v2 iterations of the quoter for uni v3 pools, as appears to be tripping many up.
 
-# The updated quoter takes a tuple with the arguments in, and switches positions of two of the values. amountIn and fee. Switch to the old ABI if calling the old quoter.
+# The updated quoter takes a tuple with the arguments in, and switches positions of two of the values, amountIn and fee.
 # Here are examples calling each with their respective ABI.
 
 QUOTER_ADDRESS = '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6'
