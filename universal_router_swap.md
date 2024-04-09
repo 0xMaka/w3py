@@ -1,16 +1,16 @@
-We can look at the `commands` contract, to get the list of steps we want to take, then encode the calldata for each of those steps.
+We can look at the `commands` contract to get the list of steps we want to take, then encode the calldata for each of those steps.
 
 In this example we wrap the native coin and then perform a swap on v3.
 
 `commands = '0x0b00'`
-```
+```python
 0b : #    uint256 constant WRAP_ETH = 0x0b; 
 00 : #    uint256 constant V3_SWAP_EXACT_IN = 0x00;
 ```
 
 We can look at the `dispatcher` contract to see what is being decoded on those calls:
 
-```
+```js
 if (command == Commands.WRAP_ETH) {
  // equivalent: abi.decode(inputs, (address, uint256))
  address recipient;
@@ -21,7 +21,7 @@ The amount will be the `msg.value` we send with the transaction, the address sho
 
 For the swap we need:
 
-```
+```js
 #        address recipient,
 #        uint256 amountIn,
 #        uint256 amountOutMinimum,
@@ -47,7 +47,7 @@ v3_calldata = encode(['address', 'uint256', 'uint256', 'bytes', 'bool'], [to, am
 ```
 Finally, we can either encode (not packed) the args together, concatonate with the function sig and use as the calldata in a 
  raw transaction, or simply pass to the `execute` function of a contract instance:
-```
+```python
 swap = router.functions.execute(commands, [wrap_calldata, v3_calldata], deadline).build_transaction(tx)
 ```
 
