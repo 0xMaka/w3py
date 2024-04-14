@@ -53,10 +53,3 @@ snake_cased = {
 # - https://github.com/ethereum/web3.py/pull/1579/commits
 # personal
 # - https://github.com/ethereum/web3.py/pull/1589/commits/61212720fc9ad52a4fda36fd946725100c257e45
-
-# net
-# - https://github.com/ethereum/web3.py/pull/1581/commits
-# miner
-# - https://github.com/ethereum/web3.py/pull/1579/commits
-# personal
-# - https://github.com/ethereum/web3.py/pull/1589/commits/61212720fc9ad52a4fda36fd946725100c257e45
