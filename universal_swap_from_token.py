@@ -45,7 +45,7 @@ commands = '0x000c'
 from eth_abi import encode
 from eth_abi.packed import encode_packed
 # some sane inputs (sane doesn't mean safe in this case, always use a good slippage value unless protected some other way)
-to = eoa.address
+to = router.address  # router here, eoa address in unwrap
 amount = 1 * 10 ** 4
 slippage = 0
 FEE = 10000
