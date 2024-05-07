@@ -26,8 +26,8 @@ AMOUNT_IN = 1*10**18
 SQRT_PRICE_LIMIT = 0
 FEE = 500
 
-amount_in  = quoter.functions.quoteExactInputSingle(WMATIC_ADDRESS, USDC_ADDRESS, FEE, AMOUNT_IN, SQRT_PRICE_LIMIT).call()
-amount_inv2 = quoterv2.functions.quoteExactInputSingle((WMATIC_ADDRESS, USDC_ADDRESS, AMOUNT_IN, FEE, SQRT_PRICE_LIMIT)).call()
+amount_out  = quoter.functions.quoteExactInputSingle(WMATIC_ADDRESS, USDC_ADDRESS, FEE, AMOUNT_IN, SQRT_PRICE_LIMIT).call()
+amount_outv2 = quoterv2.functions.quoteExactInputSingle((WMATIC_ADDRESS, USDC_ADDRESS, AMOUNT_IN, FEE, SQRT_PRICE_LIMIT)).call()
 
 def main():
-  print(amount_in)
+  print(amount_out)
