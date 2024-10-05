@@ -1,1 +1,0 @@
-[{"stateMutability": "payable", "type": "function", "name": "fn_relay", "inputs": [{"name": "_dest", "type": "address"}, {"name": "_data", "type": "bytes"}], "outputs": [{"name": "", "type": "bytes"}]}]
