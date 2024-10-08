@@ -29,7 +29,7 @@ All the best on your journey. - Maka
 |                                 |  [ eth_send_private.py           ]( flashbots/eth_send_private.py            ) | Using Flashbots endpoint to send a private transaction.      | 
 |                                 |  [ mev_send_bundle.py            ]( flashbots/mev_send_bundle.py             ) | Building and sending a classic bundle.                       |     
 | > [ general    ]( general    )  |                                                                                | **Overrides, bloom filters, log topics and wider EVM**       |
-|                                 |  [ bloom_filter.py               ]( general/bloom_filter.py                  ) | filtering the `logsBloom` for more efficient searches.       |
+|                                 |  [ bloom_filter.py               ]( general/bloom_filter.py                  ) | Filtering the `logsBloom` for more efficient searches.       |
 |                                 |  [ multi2.py                     ]( general/multi2.py                        ) | Using a popular mulicall contract, to batch static requests. |
 |                                 |  [ swap_topic.py                 ]( general/swap_topic.py                    ) | How to encode and pull a `Event` topic.                      |
 |                                 |  [ transfer_override.py          ]( general/transfer_override.py             ) | Overiding an accounts ERC20 balance, prior to an `eth_call`. |
@@ -45,6 +45,7 @@ All the best on your journey. - Maka
 | > [ signing    ]( signing/   )  |                                                                                | **Offchain signing, permits, EIP712**                        |
 |                                 |  [ pysign.py                     ]( signing/pysign.py                        ) | Deprectated signing pattern.                                 |
 |                                 |  [ setMasterContractApproval.py  ]( signing/setMasterContractApproval.py     ) | Building and signing an EIP712 digest.                       |
+|                                 |  [ universal_permit2_extended.py ]( signing/universal_permit2_extended.py    ) | Building an offchain permit for Universal router (long way). |
 | > [ sushiswap  ]( sushiswap/ )  |                                                                                | **Sushi specific**                                           |
 |                                 |  [ exact_input.py                ]( sushiswap/exact_input.py                 ) | Trident single hop swap.                                     |
 |                                 |  [ get_kava_farms.py             ]( sushiswap/get_kava_farms.py              ) | Get a list of all farms from a chef.                         |
@@ -71,7 +72,7 @@ All the best on your journey. - Maka
 | > [ uni_router ]( uni_router/)  |                                                                                | **Uniswaps Universal router**                                |
 |                                 |  [ universal_router_swap.md      ]( uni_router/universal_router_swap.md      ) | Notes on Uniswaps Universal Router.                          |
 |                                 |  [ universal_router_swap.py      ]( uni_router/universal_router_swap.py      ) | Wrap and swap from Eth using Universal router..              |
-|                                 |  [ universal_swap_from_token.py  ]( uni_router/universal_swap_from_token.py  ) | Swap from token using Universal router (needs permit).       |
+|                                 |  [ universal_swap_from_token.py  ]( uni_router/universal_swap_from_token.py  ) | Swap from token using Universal router (uses dual tx permit).|
 | > [ zk         ]( zk/        )  |                                                                                | **Anything ZK specific**                                     |
 |                                 |  [ check_balance.py              ]( zk/check_balance.py                      ) | Simple balance check, using the sdk.                         |
 |                                 |  [ transfer.py                   ]( zk/transfer.py                           ) | Simple eth transfer, using the sdk.                          |
