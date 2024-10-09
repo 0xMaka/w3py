@@ -46,6 +46,7 @@ All the best on your journey. - Maka
 |                                 |  [ pysign.py                     ]( signing/pysign.py                        ) | Deprectated signing pattern.                                 |
 |                                 |  [ setMasterContractApproval.py  ]( signing/setMasterContractApproval.py     ) | Building and signing an EIP712 digest.                       |
 |                                 |  [ universal_permit2_extended.py ]( signing/universal_permit2_extended.py    ) | Building an offchain permit for Universal router (long way). |
+|                                 |  [ universal_permit2_abstract.py ]( signing/universal_permit2_abstract.py    ) | Building an offchain permit for Universal router (short way).|
 | > [ sushiswap  ]( sushiswap/ )  |                                                                                | **Sushi specific**                                           |
 |                                 |  [ exact_input.py                ]( sushiswap/exact_input.py                 ) | Trident single hop swap.                                     |
 |                                 |  [ get_kava_farms.py             ]( sushiswap/get_kava_farms.py              ) | Get a list of all farms from a chef.                         |
@@ -59,8 +60,8 @@ All the best on your journey. - Maka
 |                                 |  [ trident_multicall.py          ]( sushiswap/trident_multicall.py           ) | Trident multi hop swap.                                      |
 |                                 |  [ xSwap.py                      ]( sushiswap/xSwap.py                       ) | Extensive cross chain swap, encoding, off chain signing etc. |
 | > [ syncswap   ]( syncswap/  )  |                                                                                | **How to swap on Syncwap DEX.**                              |
-|                                 |  [ sync_swap.py                  ]( syncswap/sync_swap.py                    ) | Basic syncswap router interaction.                           |
-|                                 |  [ sync_swap_with_permit.py      ]( syncswap/sync_swap_with_permit.py        ) | Basic syncswap router interaction using a permit.            |
+|                                 |  [ sync_swap.py                  ]( syncswap/sync_swap.py                    ) | Basic Syncswap router interaction.                           |
+|                                 |  [ sync_swap_with_permit.py      ]( syncswap/sync_swap_with_permit.py        ) | Basic Syncswap router interaction using a permit.            |
 | > [ uniswapv2  ]( uniswapv2/ )  |                                                                                | **Examples for Uniswap v2 and clones**                       |
 |                                 |  [ mempool_filter.py             ]( uniswapv2/mempool_filter.py              ) | IPC filter the tx pool for swaps and decode them.            |
 |                                 |  [ scale4whale.py                ]( uniswapv2/scale4whale.py                 ) | Get an amount required to buy a tokens total supply.         |
