@@ -31,8 +31,8 @@ All the best on your journey. - Maka
 | > [ general    ]( general    )  |                                                                                | **Overrides, bloom filters, log topics and wider EVM**       |
 |                                 |  [ bloom_filter.py               ]( general/bloom_filter.py                  ) | Filtering the `logsBloom` for more efficient searches.       |
 |                                 |  [ multi2.py                     ]( general/multi2.py                        ) | Using a popular mulicall contract, to batch static requests. |
-|                                 |  [ swap_topic.py                 ]( general/swap_topic.py                    ) | How to encode and pull a `Event` topic.                      |
-|                                 |  [ transfer_override.py          ]( general/transfer_override.py             ) | Overiding an accounts ERC20 balance, prior to an `eth_call`. |
+|                                 |  [ swap_topic.py                 ]( general/swap_topic.py                    ) | How to encode and pull an `Event` topic.                     |
+|                                 |  [ transfer_override.py          ]( general/transfer_override.py             ) | Overriding an accounts ERC20 balance, prior to an `eth_call`.|
 | > [ raw_calls  ]( raw_calls/ )  |  [                               ](                                          ) | **Contract calls sending raw calldata**                      |
 |                                 |  [ raw_approval.py               ]( raw_calls/raw_approval.py                ) | Send a token approval using pre prepared calldata.           |
 |                                 |  [ raw_deploy.py                 ]( raw_calls/raw_deploy.py                  ) | Deploy a contract using pre prepared calldata.               |
