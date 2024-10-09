@@ -1,21 +1,17 @@
 #---------------------------------------------------------------------------------------------------------------------------------------------------------#
-# UNISWAP UNIVERSAL ROUTER V3 SWAP WITH OFFCHAIN PERMIT2 SIGNATURE - EXTENDED VERSION (WITHOUT ABSTRACTION)
+# UNISWAP UNIVERSAL ROUTER V3 SWAP WITH OFFCHAIN PERMIT SIGNATURE - ABSTRACT VERSION (USING ETH SIGN TYPED DATA)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------#
+# A more general write up of python's signed typed data by Marc Garreau can be found here: 
+# - https://snakecharmers.ethereum.org/typed-data-message-signing/
 
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
-# --- FOREWORD ---
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
-# Any type of hash verification/recreation can be a tedious excercise when a single difference will drastically change the result, potentially sending you 
-# on a wild goose chase. When hashing hashes of inputs, just double check everything.
-
-from web3 import Web3; w3 = Web3(Web3.HTTPProvider('https://polygon-rpc.com'))
+from web3 import Web3; w3 = Web3(Web3.HTTPProvider('https://polygon-rpc.com')) # example uses polygon
 from os import getenv
 from dotenv import load_dotenv
 load_dotenv()
 eoa = w3.eth.account.from_key(getenv('TKEY'))                                # replace with your own set up
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------#
-# --- CONSTANTS AND CONFIGS ---
+# --- CONSTANTS AND CONFIGS --- - 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------#
 PERMIT_ADDRESS  = '0x000000000022D473030F116dDEE9F6B43aC78BA3'
 USDC_ADDRESS    = '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359'
@@ -40,8 +36,10 @@ token_out = w3.eth.contract(address=WETH_ADDRESS,  abi=ERC20_ABI )
 #---------------------------------------------------------------------------------------------------------------------------------------------------------#
 # --- EXAMPLE ---
 #---------------------------------------------------------------------------------------------------------------------------------------------------------#
-# In this scenario we want to swap on Uniswap Universal Router and we want to send our permit with the swap as opposed to approving the router in a prior
-# transaction. Note we still have to approve the permit contract in its own tx as we aren't using a custom contract and all calls will be from an EOA.
+# In this scenario we want to swap on Uniswap Universal Router and we want to 
+# send our permit with the swap as opposed to approving the router in a prior
+# transaction. Note we still have to approve the permit contract in its own tx 
+# as we aren't using a custom contract and all calls will be from an EOA.
 
 # We will swap from a single usdc and only permit the router to spend up to that amount
 swap_amount      = 1 * 10 ** 6
@@ -52,71 +50,48 @@ expiration       = 2 * 10 ** 10
 # We can get a nonce by calling the permit contract and passing owner, token, spender
 nonce            = permit.functions.allowance(eoa.address, token_in.address, router.address).call()[2]
 
-from eth_abi import encode
-from eth_abi.packed import encode_packed
 
-#  @notice The permit data for a token
-#  struct PermitDetails {
-#    // ERC20 token address
-#    address token;
-#    // the maximum amount allowed to spend
-#    uint160 amount;
-#    // timestamp at which a spender's token allowances become invalid
-#    uint48 expiration;
-#    // an incrementing value indexed per owner,token,and spender for each signature
-#    uint48 nonce;
-#  }
+DOMAIN_DATA = {
+  'name'              : 'Permit2',
+  'chainId'           : w3.eth.chain_id,
+  'verifyingContract' : permit.address
+}
 
-#  @notice The permit message signed for a single token allownce
-#  struct PermitSingle {
-#    // the permit data for a single token alownce
-#    PermitDetails details;
-#    // address permissioned on the allowed tokens
-#    address spender;
-#    // deadline on the permit signature
-#    uint256 sigDeadline;
-#  }
+PERMIT2_PERMIT_TYPE = {
+ 'PermitDetails' : [
+    { 'name' : 'token',       'type': 'address'       },
+    { 'name' : 'amount',      'type': 'uint160'       },
+    { 'name' : 'expiration',  'type': 'uint48'        },
+    { 'name' : 'nonce',       'type': 'uint48'        },
+  ],
 
-from eth_utils import keccak 
+  'PermitSingle' : [
+    { 'name' : 'details',     'type': 'PermitDetails' },
+    { 'name' : 'spender',     'type': 'address'       },
+    { 'name' : 'sigDeadline', 'type': 'uint256'       },
+  ],
+}
 
-# The following texts where pulled from the permit contract, where batch and other hash signatures can be found
+details = {
+  'token'       :  token_in.address, 
+  'amount'      : swap_amount, 
+  'expiration'  : expiration, 
+  'nonce'       : nonce
+}
 
-PERMIT_DETAILS_TYPEHASH = keccak(text='PermitDetails(address token,uint160 amount,uint48 expiration,uint48 nonce)')
-permit_hash = keccak(encode(
-  ['bytes32','address','uint160','uint48','uint48' ],[ PERMIT_DETAILS_TYPEHASH, token_in.address, swap_amount, expiration, nonce]
-))
+message = {
+  'details'     : details,
+  'spender'     : router.address,
+  'sigDeadline' : expiration
+}
 
-PERMIT_SINGLE_TYPEHASH = keccak(
-  text='PermitSingle(PermitDetails details,address spender,uint256 sigDeadline)PermitDetails(address token,uint160 amount,uint48 expiration,uint48 nonce)'
-)
-data_hash = keccak(encode([ 'bytes32','bytes32','address','uint256'],[ PERMIT_SINGLE_TYPEHASH, permit_hash, router.address, expiration ] ))
-
-
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
-
-# Domain seperators are sometimes cached as a public contract constant but we'll go over how to compute it
-NAME_HASH    = keccak(text='Permit2')    
-TYPE_HASH    = keccak(text='EIP712Domain(string name,uint256 chainId,address verifyingContract)')
-CHAIN_ID     = w3.eth.chain_id
-VERIFYING    = permit.address
-
-DOMAIN_SEPARATOR = keccak(encode(
-  [ 'bytes32','bytes32','uint256','address'],[ TYPE_HASH, NAME_HASH, CHAIN_ID, VERIFYING ]
-))
-
-assert(DOMAIN_SEPARATOR == permit.functions.DOMAIN_SEPARATOR().call())
-
-# generate hash of local data
-hashed_permit = keccak(encode_packed(['string','bytes32','bytes32'],['\x19\x01', DOMAIN_SEPARATOR, data_hash]))
-print(hashed_permit.hex())
-
-# sign the hash
-# sign_hash was deprecated in favour of sign_message which can't accidently sign a transaction
-signed_hash   = eoa.unsafe_sign_hash(hashed_permit) # for this raw example and as we have generated the hash it's safe to do
+signed_hash = w3.eth.account.sign_typed_data(eoa.key, DOMAIN_DATA, PERMIT2_PERMIT_TYPE, message)
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------#
 # --- MAIN --- 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------#
+from eth_abi import encode
+from eth_abi.packed import encode_packed
 def main():
 
   # Will skip details on command byte mechanics as a more in depth step through can be found in the dedicated 
@@ -133,7 +108,7 @@ def main():
 
   to          = eoa.address
   slippage    = 0     # use something close to desired amount
-  fee         = 500   # effects the pool address that will be calculated, check this for your case.
+  fee         = 500   # effects the pool that address that will be calculated, check this for your case.
   path        = encode_packed(['address','uint24','address'], [token_in.address, fee, token_out.address])
 
   from_eoa    = True
@@ -149,18 +124,20 @@ def main():
   # --
 
   tx = { 
-    'from' : eoa.address, 'value': 0, 'chainId': w3.eth.chain_id, 'gas': 250000, 'maxFeePerGas': w3.eth.gas_price * 2, 
-    'maxPriorityFeePerGas': w3.eth.max_priority_fee*2, 'nonce': w3.eth.get_transaction_count(eoa.address) 
-  }
+         'from' : eoa.address, 'value'       : 0,                    'chainId'             : w3.eth.chain_id, 
+         'gas'  : 250000,      'maxFeePerGas': w3.eth.gas_price * 2, 'maxPriorityFeePerGas': w3.eth.max_priority_fee*2, 
+         'nonce': w3.eth.get_transaction_count(eoa.address)
+ 
+       }
 
   # We can't do this approval in the same transaction when from EOA.
   approve     = approval.build_transaction(tx)
   print ('[-] Approving permit... ')
-  tx_hash     = send_tx(sign_tx(approve, eoa.key))
-  receipt     = w3.eth.wait_for_transaction_receipt(tx_hash)
-  print (f'[+] Approved PERMIT2 at TOKEN contract: {tx_hash}\n[>] {receipt}')
+  #tx_hash     = send_tx(sign_tx(approve, eoa.key))
+  #receipt     = w3.eth.wait_for_transaction_receipt(tx_hash)
+  #print (f'[+] Approved PERMIT2 at TOKEN contract: {tx_hash}\n[>] {receipt}')
 
-  tx.update({'nonce': w3.eth.get_transaction_count(eoa.address)})
+  #tx.update({'nonce': w3.eth.get_transaction_count(eoa.address)})
 
   # Now we can swap using the permit.
   swap        = execute.build_transaction(tx)
@@ -183,4 +160,3 @@ if __name__ == '__main__':
   main()
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------#
-

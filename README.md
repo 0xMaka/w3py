@@ -31,8 +31,8 @@ All the best on your journey. - Maka
 | > [ general    ]( general    )  |                                                                                | **Overrides, bloom filters, log topics and wider EVM**       |
 |                                 |  [ bloom_filter.py               ]( general/bloom_filter.py                  ) | Filtering the `logsBloom` for more efficient searches.       |
 |                                 |  [ multi2.py                     ]( general/multi2.py                        ) | Using a popular mulicall contract, to batch static requests. |
-|                                 |  [ swap_topic.py                 ]( general/swap_topic.py                    ) | How to encode and pull a `Event` topic.                      |
-|                                 |  [ transfer_override.py          ]( general/transfer_override.py             ) | Overiding an accounts ERC20 balance, prior to an `eth_call`. |
+|                                 |  [ swap_topic.py                 ]( general/swap_topic.py                    ) | How to encode and pull an `Event` topic.                     |
+|                                 |  [ transfer_override.py          ]( general/transfer_override.py             ) | Overriding an accounts ERC20 balance, prior to an `eth_call`.|
 | > [ raw_calls  ]( raw_calls/ )  |  [                               ](                                          ) | **Contract calls sending raw calldata**                      |
 |                                 |  [ raw_approval.py               ]( raw_calls/raw_approval.py                ) | Send a token approval using pre prepared calldata.           |
 |                                 |  [ raw_deploy.py                 ]( raw_calls/raw_deploy.py                  ) | Deploy a contract using pre prepared calldata.               |
@@ -46,6 +46,7 @@ All the best on your journey. - Maka
 |                                 |  [ pysign.py                     ]( signing/pysign.py                        ) | Deprectated signing pattern.                                 |
 |                                 |  [ setMasterContractApproval.py  ]( signing/setMasterContractApproval.py     ) | Building and signing an EIP712 digest.                       |
 |                                 |  [ universal_permit2_extended.py ]( signing/universal_permit2_extended.py    ) | Building an offchain permit for Universal router (long way). |
+|                                 |  [ universal_permit2_abstract.py ]( signing/universal_permit2_abstract.py    ) | Building an offchain permit for Universal router (short way).|
 | > [ sushiswap  ]( sushiswap/ )  |                                                                                | **Sushi specific**                                           |
 |                                 |  [ exact_input.py                ]( sushiswap/exact_input.py                 ) | Trident single hop swap.                                     |
 |                                 |  [ get_kava_farms.py             ]( sushiswap/get_kava_farms.py              ) | Get a list of all farms from a chef.                         |
@@ -59,8 +60,8 @@ All the best on your journey. - Maka
 |                                 |  [ trident_multicall.py          ]( sushiswap/trident_multicall.py           ) | Trident multi hop swap.                                      |
 |                                 |  [ xSwap.py                      ]( sushiswap/xSwap.py                       ) | Extensive cross chain swap, encoding, off chain signing etc. |
 | > [ syncswap   ]( syncswap/  )  |                                                                                | **How to swap on Syncwap DEX.**                              |
-|                                 |  [ sync_swap.py                  ]( syncswap/sync_swap.py                    ) | Basic syncswap router interaction.                           |
-|                                 |  [ sync_swap_with_permit.py      ]( syncswap/sync_swap_with_permit.py        ) | Basic syncswap router interaction using a permit.            |
+|                                 |  [ sync_swap.py                  ]( syncswap/sync_swap.py                    ) | Basic Syncswap router interaction.                           |
+|                                 |  [ sync_swap_with_permit.py      ]( syncswap/sync_swap_with_permit.py        ) | Basic Syncswap router interaction using a permit.            |
 | > [ uniswapv2  ]( uniswapv2/ )  |                                                                                | **Examples for Uniswap v2 and clones**                       |
 |                                 |  [ mempool_filter.py             ]( uniswapv2/mempool_filter.py              ) | IPC filter the tx pool for swaps and decode them.            |
 |                                 |  [ scale4whale.py                ]( uniswapv2/scale4whale.py                 ) | Get an amount required to buy a tokens total supply.         |
