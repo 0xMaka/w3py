@@ -1,12 +1,12 @@
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------#
 # UNISWAP UNIVERSAL ROUTER V3 SWAP WITH OFFCHAIN PERMIT2 SIGNATURE - EXTENDED VERSION (WITHOUT ABSTRACTION)
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------#
 
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------#
 # --- FOREWORD ---
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
-# Any type of hash verification/recreation can be a tedious excercise when a single difference will drastically change the result, potentially sending you 
-# on a wild goose chase. When hashing hashes of inputs, just double check everything.
+#------------------------------------------------------------------------------------------------------------------------------------------#
+# Any type of hash verification/recreation can be a tedious excercise when a single difference will drastically change 
+# the result, potentially sending you on a wild goose chase. When hashing hashes of inputs, just double check everything.
 
 from web3 import Web3; w3 = Web3(Web3.HTTPProvider('https://polygon-rpc.com'))
 from os import getenv
@@ -14,9 +14,9 @@ from dotenv import load_dotenv
 load_dotenv()
 eoa = w3.eth.account.from_key(getenv('TKEY'))                                # replace with your own set up
 
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------#
 # --- CONSTANTS AND CONFIGS ---
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------#
 PERMIT_ADDRESS  = '0x000000000022D473030F116dDEE9F6B43aC78BA3'
 USDC_ADDRESS    = '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359'
 WETH_ADDRESS    = '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619'
@@ -37,11 +37,13 @@ permit    = w3.eth.contract(address=PERMIT_ADDRESS, abi=PERMIT_ABI)
 token_in  = w3.eth.contract(address=USDC_ADDRESS,  abi=ERC20_ABI )
 token_out = w3.eth.contract(address=WETH_ADDRESS,  abi=ERC20_ABI )
 
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------#
 # --- EXAMPLE ---
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
-# In this scenario we want to swap on Uniswap Universal Router and we want to send our permit with the swap as opposed to approving the router in a prior
-# transaction. Note we still have to approve the permit contract in its own tx as we aren't using a custom contract and all calls will be from an EOA.
+#------------------------------------------------------------------------------------------------------------------------------------------#
+# In this scenario we want to swap on Uniswap Universal Router and we want to send our permit with the swap 
+# as opposed to approving the router in a prior transaction. 
+# Note we still have to approve the permit contract in its own tx as we aren't using a custom contract and 
+# all calls will be from an EOA.
 
 # We will swap from a single usdc and only permit the router to spend up to that amount
 swap_amount      = 1 * 10 ** 6
@@ -54,6 +56,7 @@ nonce            = permit.functions.allowance(eoa.address, token_in.address, rou
 
 from eth_abi import encode
 from eth_abi.packed import encode_packed
+from eth_utils import keccak 
 
 #  @notice The permit data for a token
 #  struct PermitDetails {
@@ -77,22 +80,48 @@ from eth_abi.packed import encode_packed
 #    uint256 sigDeadline;
 #  }
 
-from eth_utils import keccak 
-
 # The following texts where pulled from the permit contract, where batch and other hash signatures can be found
 
-PERMIT_DETAILS_TYPEHASH = keccak(text='PermitDetails(address token,uint160 amount,uint48 expiration,uint48 nonce)')
-permit_hash = keccak(encode(
-  ['bytes32','address','uint160','uint48','uint48' ],[ PERMIT_DETAILS_TYPEHASH, token_in.address, swap_amount, expiration, nonce]
-))
+detail_sig = 'PermitDetails(address token,uint160 amount,uint48 expiration,uint48 nonce)'
+permit_sig = 'PermitSingle(PermitDetails details,address spender,uint256 sigDeadline)'
 
-PERMIT_SINGLE_TYPEHASH = keccak(
-  text='PermitSingle(PermitDetails details,address spender,uint256 sigDeadline)PermitDetails(address token,uint160 amount,uint48 expiration,uint48 nonce)'
+PERMIT_DETAILS_TYPEHASH = keccak(text=detail_sig)
+
+permit_hash = keccak(
+  encode([
+    'bytes32',
+    'address',
+    'uint160',
+    'uint48',
+    'uint48' 
+  ],
+  [ 
+    PERMIT_DETAILS_TYPEHASH, 
+    token_in.address, 
+    swap_amount, 
+    expiration, 
+    nonce
+  ])
 )
-data_hash = keccak(encode([ 'bytes32','bytes32','address','uint256'],[ PERMIT_SINGLE_TYPEHASH, permit_hash, router.address, expiration ] ))
 
+PERMIT_SINGLE_TYPEHASH = keccak(text=permit_sig+detail_sig)
 
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
+data_hash = keccak(
+  encode([ 
+    'bytes32',
+    'bytes32',
+    'address',
+    'uint256'
+  ],
+  [ 
+    PERMIT_SINGLE_TYPEHASH, 
+    permit_hash,
+    router.address,
+    expiration 
+  ])
+)
+
+#------------------------------------------------------------------------------------------------------------------------------------------#
 
 # Domain seperators are sometimes cached as a public contract constant but we'll go over how to compute it
 NAME_HASH    = keccak(text='Permit2')    
@@ -114,9 +143,9 @@ print(hashed_permit.hex())
 # sign_hash was deprecated in favour of sign_message which can't accidently sign a transaction
 signed_hash   = eoa.unsafe_sign_hash(hashed_permit) # for this raw example and as we have generated the hash it's safe to do
 
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------------------------------#
 # --- MAIN --- 
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------------------------------#
 def main():
 
   # Will skip details on command byte mechanics as a more in depth step through can be found in the dedicated 
@@ -182,5 +211,5 @@ def send_tx(signed_tx):
 if __name__ == '__main__': 
   main()
 
-#---------------------------------------------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------------------------------#
 

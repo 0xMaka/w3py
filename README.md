@@ -27,7 +27,7 @@ All the best on your journey. - Maka
 | > [ flashbots  ]( flashbots/ )  |                                                                                | Call structures and direct calls to flashbots endpoints.     |
 |                                 |  [ eth_send_bundle.py            ]( flashbots/eth_send_bundle.py             ) | Building and sending a classic bundle.                       |
 |                                 |  [ eth_send_private.py           ]( flashbots/eth_send_private.py            ) | Using Flashbots endpoint to send a private transaction.      | 
-|                                 |  [ mev_send_bundle.py            ]( flashbots/mev_send_bundle.py             ) | Building and sending a classic bundle.                       |     
+|                                 |  [ mev_send_bundle.py            ]( flashbots/mev_send_bundle.py             ) | Building and sending a MevShare bundle.                      |     
 | > [ general    ]( general    )  |                                                                                | **Overrides, bloom filters, log topics and wider EVM**       |
 |                                 |  [ bloom_filter.py               ]( general/bloom_filter.py                  ) | Filtering the `logsBloom` for more efficient searches.       |
 |                                 |  [ multi2.py                     ]( general/multi2.py                        ) | Using a popular mulicall contract, to batch static requests. |
@@ -38,15 +38,15 @@ All the best on your journey. - Maka
 |                                 |  [ raw_deploy.py                 ]( raw_calls/raw_deploy.py                  ) | Deploy a contract using pre prepared calldata.               |
 |                                 |  [ raw_deposit.py                ]( raw_calls/raw_deposit.py                 ) | Deposit ETH to receive WETH using pre prepared calldata.     |
 |                                 |  [ raw_transfer.py               ]( raw_calls/raw_transfer.py                ) | Make an ERC20 transfer using pre prepared calldata.          |
-| > [ scrap_bots ]( scrap_bots/)  |                                                                                | **Basic bot flow**                                           |
-|                                 |  [ skym_bot/                     ]( scrap_bots/skym_bot/                     ) | Monitor a v2 pair for imbalance, skim with contract if so.   |
-|                                 |  [ flash_bot.py                  ]( scrap_bots/flash_bot.py                  ) | A basic flashbot script, using flashbots py library.         |
-|                                 |  [ voly.py                       ]( scrap_bots/voly.py                       ) | Polls a v2 pair for price, buys or sells, tracks if holding. |
+| > [ scrapbots ]( scrapbots/)    |                                                                                | **Basic bot flow**                                           |
+|                                 |  [ skym_bot/                     ]( scrapbots/skym_bot/                      ) | Monitor a v2 pair for imbalance, skim with contract if so.   |
+|                                 |  [ flash_bot.py                  ]( scrapbots/flash_bot.py                   ) | A basic flashbot script, using flashbots py library.         |
+|                                 |  [ voly.py                       ]( scrapbots/voly.py                        ) | Polls a v2 pair for price, buys or sells, tracks if holding. |
 | > [ signing    ]( signing/   )  |                                                                                | **Offchain signing, permits, EIP712**                        |
 |                                 |  [ pysign.py                     ]( signing/pysign.py                        ) | Deprectated signing pattern.                                 |
 |                                 |  [ setMasterContractApproval.py  ]( signing/setMasterContractApproval.py     ) | Building and signing an EIP712 digest.                       |
-|                                 |  [ universal_permit2_extended.py ]( signing/universal_permit2_extended.py    ) | Building an offchain permit for Universal router (long way). |
-|                                 |  [ universal_permit2_abstract.py ]( signing/universal_permit2_abstract.py    ) | Building an offchain permit for Universal router (short way).|
+|                                 |  [ universal_permit2_extended.py ]( signing/universal_permit2_extended.py    ) | Offchain permit for Universal router (long way).             |
+|                                 |  [ universal_permit2_abstract.py ]( signing/universal_permit2_abstract.py    ) | Offchain permit for Universal router (short way).            |
 | > [ sushiswap  ]( sushiswap/ )  |                                                                                | **Sushi specific**                                           |
 |                                 |  [ exact_input.py                ]( sushiswap/exact_input.py                 ) | Trident single hop swap.                                     |
 |                                 |  [ get_kava_farms.py             ]( sushiswap/get_kava_farms.py              ) | Get a list of all farms from a chef.                         |
