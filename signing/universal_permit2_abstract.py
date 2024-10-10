@@ -73,7 +73,7 @@ PERMIT2_PERMIT_TYPE = {
 }
 
 details = {
-  'token'       :  token_in.address, 
+  'token'       : token_in.address, 
   'amount'      : swap_amount, 
   'expiration'  : expiration, 
   'nonce'       : nonce
@@ -133,11 +133,11 @@ def main():
   # We can't do this approval in the same transaction when from EOA.
   approve     = approval.build_transaction(tx)
   print ('[-] Approving permit... ')
-  #tx_hash     = send_tx(sign_tx(approve, eoa.key))
-  #receipt     = w3.eth.wait_for_transaction_receipt(tx_hash)
-  #print (f'[+] Approved PERMIT2 at TOKEN contract: {tx_hash}\n[>] {receipt}')
+  tx_hash     = send_tx(sign_tx(approve, eoa.key))
+  receipt     = w3.eth.wait_for_transaction_receipt(tx_hash)
+  print (f'[+] Approved PERMIT2 at TOKEN contract: {tx_hash}\n[>] {receipt}')
 
-  #tx.update({'nonce': w3.eth.get_transaction_count(eoa.address)})
+  tx.update({'nonce': w3.eth.get_transaction_count(eoa.address)})
 
   # Now we can swap using the permit.
   swap        = execute.build_transaction(tx)
