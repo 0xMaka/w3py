@@ -74,6 +74,7 @@ All the best on your journey. - Maka
 |                                 |  [ universal_router_swap.md      ]( uni_router/universal_router_swap.md      ) | Notes on Uniswaps Universal Router.                          |
 |                                 |  [ universal_router_swap.py      ]( uni_router/universal_router_swap.py      ) | Wrap and swap from Eth using Universal router..              |
 |                                 |  [ universal_swap_from_token.py  ]( uni_router/universal_swap_from_token.py  ) | Swap from token using Universal router (uses dual tx permit).|
+|                                 |  [ universal_v2_swap.py          ]( uni_router/universal_v2_swap.py          ) | Swap on a v2 pool using Universal router (dual tx permit).   |
 | > [ zk         ]( zk/        )  |                                                                                | **Anything ZK specific**                                     |
 |                                 |  [ check_balance.py              ]( zk/check_balance.py                      ) | Simple balance check, using the sdk.                         |
 |                                 |  [ transfer.py                   ]( zk/transfer.py                           ) | Simple eth transfer, using the sdk.                          |
