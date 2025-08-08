@@ -1,4 +1,19 @@
+> :bulb: NOTICE: More recent web3.py versions won't automatically prefix hashes in the signature function, an example of the fix can be found below.
+
+Previously:
+```py
+message = messages.encode_defunct(text=w3.keccak(text=_tx_body).hex()) 
+signature = f'{Account.from_key(FLA).address}:{Account.sign_message(message, FLA).signature.hex()}'
+```
+Currently:
+```py
+message = messages.encode_defunct(text='0x' + w3.keccak(text=_tx_body).hex()) 
+signature = f'{Account.from_key(FLA).address}:0x{Account.sign_message(message, FLA).signature.hex()}'
+```
+---
+
 # flashbots 🤖
+
 Examples raw posting json rpc calls to flashbots endpoints, useful when features are added to protocol but not yet supprted by the python package.
 
 - More information, along with which fields are optional can be found in the flashbots documentation: 
@@ -7,7 +22,7 @@ Examples raw posting json rpc calls to flashbots endpoints, useful when features
 ## Calls as python dictionaries:
 
 ### eth_sendPrivateTransaction 
-- is used to send a single transaction to Flashbots. Flashbots will attempt to build a block including the transaction for the next 25 blocks.
+- is used to send a single transaction to Flashbots. Flashbots will attempt to build a block including the transaction for the next 2    5 blocks.
 ```python
 eth_sendPrivateTransaction = {
     'jsonrpc': '2.0',   
