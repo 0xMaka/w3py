@@ -22,7 +22,7 @@ Examples raw posting json rpc calls to flashbots endpoints, useful when features
 ## Calls as python dictionaries:
 
 ### eth_sendPrivateTransaction 
-- is used to send a single transaction to Flashbots. Flashbots will attempt to build a block including the transaction for the next 2    5 blocks.
+- is used to send a single transaction to Flashbots. Flashbots will attempt to build a block including the transaction for the next 25 blocks.
 ```python
 eth_sendPrivateTransaction = {
     'jsonrpc': '2.0',   
