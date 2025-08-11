@@ -115,8 +115,8 @@ TARGET_BLOCK = w3.eth.block_number
 tx1 = { 'data': TOGGLE, 'to': FREE, 'from': EOA,'value': 0,'chainId': 5,'gas': 40000,'maxFeePerGas': w3.to_wei('60', 'gwei'),'maxPriorityFeePerGas': w3.to_wei('20', 'gwei'),'nonce': w3.eth.get_transaction_count(EOA)}
 tx2 = { 'data': TAKE, 'to': FREE, 'from': EOA,'value':0,'chainId': 5,'gas': 50000,'maxFeePerGas': w3.to_wei('60', 'gwei'), 'maxPriorityFeePerGas': w3.to_wei('20', 'gwei'),'nonce': w3.eth.get_transaction_count(EOA) + 1}
 
-signed_private = sign_tx(tx1, KEY).rawTransaction.to_0x_hex()
-signed_backrun = sign_tx(tx2, KEY).rawTransaction.to_0x_hex()
+signed_private = sign_tx(tx1, KEY).raw_transaction.to_0x_hex()
+signed_backrun = sign_tx(tx2, KEY).raw_transaction.to_0x_hex()
 
 private = eth_sendPrivateTransaction
 private.update({
