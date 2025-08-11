@@ -7,8 +7,8 @@ signature = f'{Account.from_key(FLA).address}:{Account.sign_message(message, FLA
 ```
 Currently:
 ```py
-message = messages.encode_defunct(text='0x' + w3.keccak(text=_tx_body).hex()) 
-signature = f'{Account.from_key(FLA).address}:0x{Account.sign_message(message, FLA).signature.hex()}'
+message = messages.encode_defunct(text=w3.keccak(text=_tx_body).to_0x_hex()) 
+signature = f'{Account.from_key(FLA).address}:{Account.sign_message(message, FLA).signature.to_0x_hex()}'
 ```
 ---
 

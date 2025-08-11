@@ -17,8 +17,8 @@ def sign_tx(_tx, _key) -> str:
 
 from eth_account import messages, Account
 def sign_flash(_tx_body: str) -> str:
-  message = messages.encode_defunct(text=w3.keccak(text=_tx_body).hex()) 
-  signature = f'{Account.from_key(FLA).address}:{w3.eth.account.sign_message(message, FLA).signature.hex()}'
+  message = messages.encode_defunct(text=w3.keccak(text=_tx_body).to_0x_hex()) 
+  signature = f'{Account.from_key(FLA).address}:{w3.eth.account.sign_message(message, FLA).signature.to_0x_hex()}'
   return signature
 
 from requests import post
@@ -59,7 +59,7 @@ TARGET_BLOCK = w3.eth.block_number
 WASTE_GAS = '0x8e63F02d5fB3bCCD2939e0ba6Fe3Bf2635718F49'
 SIG = '0x1e0bd6fa'
 tx = { 'data': SIG, 'to': WASTE_GAS, 'from': EOA,'value':0,'chainId': 5,'gas': 50000,'maxFeePerGas': w3.to_wei('60', 'gwei'), 'maxPriorityFeePerGas': w3.to_wei('20', 'gwei'),'nonce': w3.eth.get_transaction_count(EOA)}
-signed_private = sign_tx(tx, KEY).rawTransaction.hex()
+signed_private = sign_tx(tx, KEY).raw_transaction.to_0x_hex()
 
 private = eth_sendPrivateTransaction
 private.update({
