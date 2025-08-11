@@ -17,8 +17,8 @@ def sign_tx(_tx, _key) -> str:
 
 from eth_account import messages, Account
 def sign_flash(_tx_body: str) -> str:
-  message = messages.encode_defunct(text=w3.keccak(text=_tx_body).hex()) 
-  signature = f'{Account.from_key(FLA).address}:{w3.eth.account.sign_message(message, FLA).signature.hex()}'
+  message = messages.encode_defunct(text=w3.keccak(text=_tx_body).to_0x_hex()) 
+  signature = f'{Account.from_key(FLA).address}:{w3.eth.account.sign_message(message, FLA).signature.to_0x_hex()}'
   return signature
 
 from requests import post
@@ -115,8 +115,8 @@ TARGET_BLOCK = w3.eth.block_number
 tx1 = { 'data': TOGGLE, 'to': FREE, 'from': EOA,'value': 0,'chainId': 5,'gas': 40000,'maxFeePerGas': w3.to_wei('60', 'gwei'),'maxPriorityFeePerGas': w3.to_wei('20', 'gwei'),'nonce': w3.eth.get_transaction_count(EOA)}
 tx2 = { 'data': TAKE, 'to': FREE, 'from': EOA,'value':0,'chainId': 5,'gas': 50000,'maxFeePerGas': w3.to_wei('60', 'gwei'), 'maxPriorityFeePerGas': w3.to_wei('20', 'gwei'),'nonce': w3.eth.get_transaction_count(EOA) + 1}
 
-signed_private = sign_tx(tx1, KEY).rawTransaction.hex()
-signed_backrun = sign_tx(tx2, KEY).rawTransaction.hex()
+signed_private = sign_tx(tx1, KEY).rawTransaction.to_0x_hex()
+signed_backrun = sign_tx(tx2, KEY).rawTransaction.to_0x_hex()
 
 private = eth_sendPrivateTransaction
 private.update({

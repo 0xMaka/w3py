@@ -5,7 +5,7 @@ from os import getenv
 from dotenv import load_dotenv 
 from net import con  
 
-w3 = con('GOERLI')  
+w3 = con('SEPOLIA')  
 
 load_dotenv()   
 EOA = getenv('TRON')   
@@ -45,8 +45,8 @@ def sign_tx(tx, key):
 
 from eth_account import messages, Account
 def sign_flash(_tx_body: str) -> str:
-  message = messages.encode_defunct(text=w3.keccak(text=_tx_body).hex()) 
-  signature = f'{Account.from_key(FLA).address}:{w3.eth.account.sign_message(message, FLA).signature.hex()}'
+  message = messages.encode_defunct(text=w3.keccak(text=_tx_body).to_0x_hex()) 
+  signature = f'{Account.from_key(FLA).address}:{w3.eth.account.sign_message(message, FLA).signature.to_0x_hex()}'
   return signature
 
 from requests import post
@@ -54,18 +54,18 @@ from json import dumps
 def send_flash(_request: dict) -> bytes:
   request = dumps(_request)
   headers = { 'Content-Type': 'application/json', 'X-Flashbots-Signature': sign_flash(request) }
-  return post('https://relay-goerli.flashbots.net', data=request, headers=headers).content
+  return post('https://relay-sepolia.flashbots.net', data=request, headers=headers).content
 
 
-WASTE_GAS = '0x8e63F02d5fB3bCCD2939e0ba6Fe3Bf2635718F49'
+WASTE_GAS = '0x492378E10a093Be6ad6dB6A3C5Fc4FC6F3252479'
 SIG = '0x1e0bd6fa'
+chain_id = w3.eth.chain_id
 
-tx1 = { 'from': EOA, 'to': EOA, 'value': 0, 'chainId': 5, 'gas': 25000, 'maxFeePerGas': w3.to_wei(60, 'gwei'), 'maxPriorityFeePerGas': w3.to_wei(20, 'gwei'), 'data': '0x', 'nonce': w3.eth.get_transaction_count(EOA) }
-tx2 = { 'data': SIG, 'to': WASTE_GAS, 'from': EOA,'value': 0,'chainId': 5,'gas': 50000,'maxFeePerGas': w3.to_wei(60, 'gwei'), 'maxPriorityFeePerGas': w3.to_wei(20, 'gwei'),'nonce': w3.eth.get_transaction_count(EOA) + 1}
+tx1 = { 'from': EOA, 'to': EOA, 'value': 0, 'chainId': chain_id, 'gas': 25000, 'maxFeePerGas': w3.to_wei(60, 'gwei'), 'maxPriorityFeePerGas': w3.to_wei(20, 'gwei'), 'data': '0x', 'nonce': w3.eth.get_transaction_count(EOA) }
+tx2 = { 'data': SIG, 'to': WASTE_GAS, 'from': EOA,'value': 0,'chainId': chain_id,'gas': 50000,'maxFeePerGas': w3.to_wei(60, 'gwei'), 'maxPriorityFeePerGas': w3.to_wei(20, 'gwei'),'nonce': w3.eth.get_transaction_count(EOA) + 1}
 
-signed_tx1 = sign_tx(tx1, KEY).rawTransaction.hex()
-signed_tx2 = sign_tx(tx2, KEY).rawTransaction.hex()
-
+signed_tx1 = sign_tx(tx1, KEY).raw_transaction.to_0x_hex()
+signed_tx2 = sign_tx(tx2, KEY).raw_transaction.to_0x_hex()
 
 TARGET_BLOCK = w3.eth.block_number
 
