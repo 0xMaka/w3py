@@ -13,6 +13,7 @@ signature = f'{Account.from_key(FLA).address}:{Account.sign_message(message, FLA
 ---
 
 # flashbots 🤖
+
 Examples raw posting json rpc calls to flashbots endpoints, useful when features are added to protocol but not yet supprted by the python package.
 
 - More information, along with which fields are optional can be found in the flashbots documentation: 
@@ -21,7 +22,7 @@ Examples raw posting json rpc calls to flashbots endpoints, useful when features
 ## Calls as python dictionaries:
 
 ### eth_sendPrivateTransaction 
-- is used to send a single transaction to Flashbots. Flashbots will attempt to build a block including the transaction for the next 25 blocks.
+- is used to send a single transaction to Flashbots. Flashbots will attempt to build a block including the transaction for the next 2    5 blocks.
 ```python
 eth_sendPrivateTransaction = {
     'jsonrpc': '2.0',   
